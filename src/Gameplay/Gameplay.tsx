@@ -129,7 +129,11 @@ export function Gameplay({ user, onExit }: GameplayProps) {
     }
 
     const components = selectedComponents;
-    const consumedIds = new Set(COMPONENT_CATEGORIES.map((category) => buildSlots[category]).filter(Boolean));
+    const consumedIds = new Set(
+      COMPONENT_CATEGORIES.map((category) => buildSlots[category]).filter(
+        (instanceId): instanceId is string => instanceId !== null,
+      ),
+    );
     const server: VirtualServer = {
       id: createId(),
       name: createServerName(save.servers.length),
