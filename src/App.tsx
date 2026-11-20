@@ -90,17 +90,6 @@ function PortalContent() {
     [allEntries, selectedEntryId],
   );
 
-  const handleSignIn = async () => {
-    setAuthNotice(null);
-    try {
-      await signInWithGoogle();
-    } catch (err) {
-      setAuthNotice(
-        err instanceof Error ? err.message : 'Не удалось выполнить вход через Google.',
-      );
-    }
-  };
-
   const performSignIn = async (): Promise<boolean> => {
     setAuthNotice(null);
     try {
