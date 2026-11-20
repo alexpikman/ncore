@@ -1,0 +1,8 @@
+{
+  "name": "NETWORK CORE",
+  "description": "Информационный портал распределённой технологической экосистемы Ncore — концепция, архитектура, база знаний, дорожная карта и развитие проекта.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

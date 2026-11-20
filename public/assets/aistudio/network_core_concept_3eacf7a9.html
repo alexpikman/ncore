@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NETWORK CORE — концепция распределённой технологической экосистемы: симулятор, сеть узлов, ИИ-агенты, общие знания и экономика вклада.">
+<title>NETWORK CORE — Распределённая технологическая экосистема</title>
+<style>
+:root{--bg:#080d18;--panel:#101a2b;--panel2:#142239;--line:#263852;--text:#e8f0fb;--muted:#9aabc2;--blue:#62a9ff;--cyan:#55e0d0;--green:#6de0a4;--gold:#ffc96b;--purple:#b89aff;--red:#ff8585;--max:1180px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:88px}body{margin:0;background:radial-gradient(ellipse at 70% -10%,#17345a 0,transparent 38%),var(--bg);color:var(--text);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}p{color:#c4d0e0;margin:.6rem 0 1rem}h1,h2,h3,h4{line-height:1.15;letter-spacing:-.025em}h1{font-size:clamp(2.8rem,7vw,6rem);margin:.35em 0}h2{font-size:clamp(1.8rem,4vw,3rem);margin:0 0 1rem}h3{font-size:1.25rem;margin:.2rem 0 .65rem}h4{font-size:1rem;margin:.2rem 0 .4rem}.muted{color:var(--muted)}.eyebrow{color:var(--cyan);font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+.wrap{width:min(var(--max),calc(100% - 40px));margin:auto}.topbar{position:sticky;top:0;z-index:20;background:#080d18eF;border-bottom:1px solid #263852;backdrop-filter:blur(16px)}.nav{height:66px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-weight:900;letter-spacing:.12em;color:#fff}.brand span{color:var(--cyan)}.navlinks{display:flex;gap:18px;overflow:auto;white-space:nowrap;font-size:.83rem}.navlinks a{color:#c5d3e5}.hero{padding:90px 0 70px;min-height:620px;display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:35px}.hero p{font-size:1.12rem;max-width:690px}.hero-art{width:100%;filter:drop-shadow(0 20px 50px #1b83c633)}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.btn{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:12px;padding:12px 17px;color:var(--text);font-weight:750;background:#13213a}.btn.primary{background:linear-gradient(110deg,#176f9d,#2364bb);border-color:#3d91d1}.pill{display:inline-block;padding:5px 10px;border:1px solid #31516d;border-radius:999px;color:#b8d7ef;font-size:.75rem;margin:3px 5px 3px 0}.section{padding:78px 0;border-top:1px solid #1b2a40}.lead{font-size:1.12rem;max-width:850px}.grid{display:grid;gap:17px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:linear-gradient(150deg,#142239,#0e1727);border:1px solid var(--line);border-radius:18px;padding:22px;min-width:0}.card p{font-size:.94rem}.icon{width:42px;height:42px;color:var(--cyan);margin-bottom:12px}.visual{background:#0c1525;border:1px solid #253a55;border-radius:20px;padding:16px;overflow:hidden}.visual svg{width:100%;height:auto;display:block}.stat{font-size:2rem;font-weight:900;letter-spacing:-.04em}.statlabel{font-size:.8rem;color:var(--muted)}.tag{font-size:.72rem;color:var(--cyan);font-weight:800;letter-spacing:.12em;text-transform:uppercase}.callout{border-left:3px solid var(--cyan);padding:15px 18px;background:#102237;border-radius:0 12px 12px 0;color:#d5e4f4;margin:20px 0}.warning{border-left-color:var(--gold);background:#2a2115}.danger{border-left-color:var(--red);background:#29191f}.steps{counter-reset:step}.step{position:relative;padding:0 0 24px 56px;border-left:1px solid #34506e;margin-left:17px}.step:last-child{border:0}.step:before{counter-increment:step;content:counter(step);position:absolute;left:-18px;top:0;width:35px;height:35px;border-radius:50%;display:grid;place-items:center;background:#153b58;border:1px solid #4c9fbd;color:#bff8ef;font-weight:900}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:14px}table{border-collapse:collapse;width:100%;min-width:620px;background:#0e1727}th,td{text-align:left;padding:13px 15px;border-bottom:1px solid #24344c;vertical-align:top}th{color:#9fc9e8;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;background:#142239}td{color:#d1dceb;font-size:.92rem}tr:last-child td{border-bottom:0}.bar{height:12px;background:#24344b;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;border-radius:99px}.moneyrow{display:grid;grid-template-columns:1.5fr 3fr 55px;gap:12px;align-items:center;margin:12px 0;font-size:.9rem}.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.phase{border-top:3px solid var(--blue)}.phase:nth-child(2){border-color:var(--cyan)}.phase:nth-child(3){border-color:var(--purple)}.phase:nth-child(4){border-color:var(--gold)}.phase:nth-child(5){border-color:var(--green)}.phase:nth-child(6){border-color:#ff8eaa}.phase small{color:var(--muted)}.glossary dt{color:#fff;font-weight:800;margin-top:13px}.glossary dd{margin:2px 0 8px 0;color:#b8c7d9}.refs li{margin:10px 0;color:#c5d3e5}.refs a{font-weight:700}.footer{padding:45px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.toc a{padding:7px 10px;border-radius:9px;background:#142239;border:1px solid #293e5a;font-size:.82rem}.mini{font-size:.78rem;color:var(--muted)}.split{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}.metricline{display:flex;gap:12px;align-items:center;margin:10px 0}.metricline b{min-width:100px}.code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#9de8d9;background:#0a1220;padding:2px 5px;border-radius:5px;font-size:.9em}
+@media(max-width:850px){.hero{grid-template-columns:1fr;padding-top:65px}.hero-art{max-width:650px;margin:auto}.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}.roadmap{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}.navlinks{display:none}}
+@media(max-width:560px){.wrap{width:min(100% - 28px,var(--max))}.section{padding:55px 0}.g2,.g3,.g4,.roadmap{grid-template-columns:1fr}.hero{min-height:0;padding:55px 0}.moneyrow{grid-template-columns:1fr 2fr 42px}.card{padding:18px}}
+@media print{body{background:#fff;color:#111}.topbar,.actions{display:none}.card,.visual,.tablewrap{break-inside:avoid;background:#fff;color:#111;border-color:#aaa}p,td,dd,.muted{color:#333}.section{break-before:page}a{color:#0645ad}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="wrap nav"><a class="brand" href="#top">NETWORK<span>CORE</span></a><nav class="navlinks"><a href="#vision">Концепция</a><a href="#game">Симулятор</a><a href="#network">Сеть</a><a href="#ai">ИИ</a><a href="#economy">Экономика</a><a href="#architecture">Архитектура</a><a href="#roadmap">План</a><a href="#references">Справочники</a></nav></div></header>
+<main id="top">
+<section class="wrap hero">
+<div>
+<div class="eyebrow">Open infrastructure · Collective intelligence · Real contribution</div>
+<h1>Сеть, которую<br><span style="color:var(--cyan)">строят участники.</span></h1>
+<p>NETWORK CORE — концепция распределённой технологической экосистемы, в которой игра становится инженерной лабораторией, участники создают реальные инструменты, ИИ использует общие проверенные знания, а полезный вклад может получать экономическое вознаграждение.</p>
+<div><span class="pill">Сетевой симулятор</span><span class="pill">P2P-инфраструктура</span><span class="pill">AI Agents</span><span class="pill">Общая база знаний</span><span class="pill">Экономика вклада</span></div>
+<div class="actions"><a class="btn primary" href="#vision">Изучить концепцию ↓</a><a class="btn" href="#roadmap">План реализации</a></div>
+<p class="mini">Концептуальный документ · Версия 0.1 · 20 ноября 2026</p>
+</div>
+<div class="hero-art">
+<svg viewBox="0 0 650 510" role="img" aria-label="Иллюстрация глобальной сети серверных узлов">
+<defs><radialGradient id="glow"><stop stop-color="#55e0d0" stop-opacity=".3"/><stop offset="1" stop-color="#55e0d0" stop-opacity="0"/></radialGradient><linearGradient id="wire"><stop stop-color="#3778c9"/><stop offset="1" stop-color="#55e0d0"/></linearGradient></defs>
+<circle cx="325" cy="250" r="235" fill="url(#glow)"/>
+<g fill="none" stroke="url(#wire)" stroke-width="2" opacity=".72">
+<path d="M325 250 145 125 80 260 190 390 325 250 490 115 565 270 450 405 325 250 145 125 490 115 565 270 190 390 450 405 80 260 325 250"/>
+<path d="M145 125 190 390M490 115 450 405M80 260 565 270" stroke-dasharray="5 8"/>
+</g>
+<g fill="#102b43" stroke="#62a9ff" stroke-width="2">
+<rect x="290" y="213" width="70" height="70" rx="15"/><rect x="112" y="92" width="66" height="66" rx="13"/><rect x="47" y="228" width="66" height="66" rx="13"/><rect x="157" y="357" width="66" height="66" rx="13"/><rect x="457" y="82" width="66" height="66" rx="13"/><rect x="532" y="237" width="66" height="66" rx="13"/><rect x="417" y="372" width="66" height="66" rx="13"/>
+</g>
+<g fill="#55e0d0"><circle cx="325" cy="248" r="7"/><circle cx="145" cy="125" r="6"/><circle cx="80" cy="260" r="6"/><circle cx="190" cy="390" r="6"/><circle cx="490" cy="115" r="6"/><circle cx="565" cy="270" r="6"/><circle cx="450" cy="405" r="6"/></g>
+<g stroke="#b8d7ef" stroke-width="2" fill="none"><rect x="307" y="230" width="36" height="8" rx="2"/><rect x="307" y="244" width="36" height="8" rx="2"/><rect x="307" y="258" width="36" height="8" rx="2"/><path d="M320 234h3m-3 14h3m-3 14h3"/></g>
+<g font-family="system-ui" font-size="12" fill="#b8cce1"><text x="325" y="305" text-anchor="middle">CORE NODE</text><text x="145" y="177" text-anchor="middle">PEER 01</text><text x="80" y="313" text-anchor="middle">PEER 02</text><text x="190" y="442" text-anchor="middle">PEER 03</text><text x="490" y="167" text-anchor="middle">PEER 04</text><text x="565" y="322" text-anchor="middle">PEER 05</text><text x="450" y="457" text-anchor="middle">PEER 06</text></g>
+</svg>
+</div>
+</section>
+
+<section class="section" id="vision"><div class="wrap">
+<div class="eyebrow">01 · Vision</div><h2>Не игра вокруг сети.<br>Игра как способ построить сеть.</h2>
+<p class="lead">В привычной игре пользователь потребляет заранее созданный контент. В NETWORK CORE он получает инструменты, чтобы создавать инфраструктуру, знания, протоколы, автоматизацию и сервисы, которые могут быть полезны за пределами игрового мира.</p>
+<div class="grid g3">
+<div class="card"><div class="tag">01 / Learn</div><h3>Учиться на практике</h3><p>Собирать виртуальные серверы, проектировать топологии, диагностировать соединения, изучать протоколы и безопасность через задачи с измеримым результатом.</p></div>
+<div class="card"><div class="tag">02 / Build</div><h3>Создавать вместе</h3><p>Публиковать инструменты, навыки ИИ, документацию и проверенные решения. Улучшения становятся доступны сообществу по понятным правилам лицензирования.</p></div>
+<div class="card"><div class="tag">03 / Contribute</div><h3>Получать признание</h3><p>Подтверждённый вклад влияет на репутацию, доступ к сложным заданиям и потенциальное вознаграждение из реальной выручки.</p></div>
+</div>
+<div class="callout"><b>Большая идея:</b> превратить интерес к программированию, сетям и искусственному интеллекту в коллективный процесс создания открытой инфраструктуры. Не обещать магическую «неотключаемость», а инженерно повышать устойчивость за счёт независимых узлов, репликации, открытых протоколов и отсутствия единственной точки отказа.</div>
+</div></section>
+
+<section class="section" id="game"><div class="wrap">
+<div class="eyebrow">02 · Game layer</div><h2>Виртуальная лаборатория и симулятор</h2>
+<p class="lead">Первый пользовательский опыт — не настройка сложного реального сервера, а понятная инженерная игра. Игрок начинает с ограниченных ресурсов, собирает VPS, соединяет узлы и постепенно открывает более сложные инструменты.</p>
+<div class="split">
+<div class="visual">
+<svg viewBox="0 0 560 310" role="img" aria-label="Сборка виртуального сервера из комплектующих">
+<defs><linearGradient id="metal" x2="0" y2="1"><stop stop-color="#304b69"/><stop offset="1" stop-color="#14243a"/></linearGradient></defs>
+<rect x="35" y="35" width="490" height="240" rx="18" fill="#101d30" stroke="#35516f"/>
+<rect x="70" y="70" width="420" height="170" rx="12" fill="url(#metal)" stroke="#5d83a8"/>
+<rect x="105" y="102" width="115" height="95" rx="8" fill="#0b1422" stroke="#55e0d0" stroke-width="2"/>
+<rect x="127" y="122" width="70" height="55" rx="4" fill="#1a4461" stroke="#62a9ff"/><text x="162" y="153" text-anchor="middle" font-size="12" fill="#e8f0fb">CPU</text>
+<g fill="#1c5d67" stroke="#55e0d0"><rect x="250" y="98" width="35" height="108" rx="5"/><rect x="294" y="98" width="35" height="108" rx="5"/><rect x="338" y="98" width="35" height="108" rx="5"/></g>
+<g fill="#d2f9ef" font-size="10" text-anchor="middle"><text x="267" y="158">RAM</text><text x="311" y="158">RAM</text><text x="355" y="158">RAM</text></g>
+<rect x="400" y="110" width="62" height="82" rx="7" fill="#1b3550" stroke="#b89aff"/><text x="431" y="155" text-anchor="middle" fill="#e8f0fb" font-size="11">NVMe</text>
+<g stroke="#62a9ff" stroke-width="2" fill="none"><path d="M105 218h357M85 83h25M85 92h25"/></g>
+<g fill="#6de0a4"><circle cx="450" cy="55" r="5"/><circle cx="467" cy="55" r="5"/><circle cx="484" cy="55" r="5"/></g>
+<text x="280" y="259" text-anchor="middle" fill="#9aabc2" font-size="12">VIRTUAL SERVER ASSEMBLY</text>
+</svg>
+</div>
+<div>
+<h3>Сборка из компонентов</h3>
+<p>CPU, RAM, NVMe, GPU, сетевые карты, охлаждение и энергопотребление формируют характеристики виртуального узла. Система проверяет совместимость и рассчитывает стоимость.</p>
+<ul><li>Анимация установки компонентов.</li><li>Тест запуска и диагностика.</li><li>Назначение адреса и подключение к сети.</li><li>Апгрейды, ограничения и обслуживание.</li></ul>
+</div>
+</div>
+<h3 style="margin-top:34px">Игровой цикл</h3>
+<div class="grid g4">
+<div class="card"><div class="stat">01</div><h4>Собрать</h4><p>Создать узел из виртуальных комплектующих.</p></div>
+<div class="card"><div class="stat">02</div><h4>Подключить</h4><p>Соединить его с другими узлами и сервисами.</p></div>
+<div class="card"><div class="stat">03</div><h4>Решить</h4><p>Выполнить сетевую, инженерную или исследовательскую задачу.</p></div>
+<div class="card"><div class="stat">04</div><h4>Развить</h4><p>Получить опыт, репутацию, COIN и новые возможности.</p></div>
+</div>
+<h3 style="margin-top:34px">Примеры миссий</h3>
+<div class="tablewrap"><table><thead><tr><th>Задание</th><th>Навык</th><th>Критерий завершения</th></tr></thead><tbody>
+<tr><td>Соединить два узла</td><td>Адресация, маршрутизация</td><td>Узлы обмениваются тестовыми пакетами</td></tr>
+<tr><td>Защитить сообщение</td><td>TLS, ключи, проверка подлинности</td><td>Получатель проверяет подлинность и целостность</td></tr>
+<tr><td>Пережить отказ узла</td><td>Резервирование, мониторинг</td><td>Сервис восстанавливается по заданному SLA</td></tr>
+<tr><td>Найти сетевую проблему</td><td>Диагностика, анализ логов</td><td>Причина подтверждена воспроизводимым тестом</td></tr>
+<tr><td>Создать AI-навык</td><td>Инструменты, документация, тесты</td><td>Навык проходит проверку в песочнице</td></tr>
+</tbody></table></div>
+</div></section>
+
+<section class="section" id="network"><div class="wrap">
+<div class="eyebrow">03 · Network layer</div><h2>От виртуальных узлов — к реальной распределённой инфраструктуре</h2>
+<p class="lead">Сеть развивается поэтапно. Сначала все узлы существуют в симуляции. Затем участники подключают реальные устройства через ограниченный и проверяемый клиент. Физические ресурсы не смешиваются с игровой средой без явного согласия владельца.</p>
+<div class="visual">
+<svg viewBox="0 0 900 390" role="img" aria-label="Три уровня архитектуры сети">
+<rect x="18" y="18" width="864" height="95" rx="14" fill="#13243a" stroke="#3e6791"/><rect x="18" y="147" width="864" height="95" rx="14" fill="#102b2d" stroke="#2d887f"/><rect x="18" y="276" width="864" height="95" rx="14" fill="#211d3a" stroke="#7664b5"/>
+<g font-family="system-ui" fill="#e8f0fb"><text x="42" y="48" font-size="17" font-weight="700">УРОВЕНЬ 1 · SANDBOX</text><text x="42" y="75" font-size="12" fill="#a9bfd7">Виртуальные VPS · виртуальные IP · симуляция протоколов · изолированные задачи</text><text x="42" y="177" font-size="17" font-weight="700">УРОВЕНЬ 2 · PARTICIPANT NODES</text><text x="42" y="204" font-size="12" fill="#a9d9d1">Домашние ПК · VPS · выделенные серверы · добровольно предоставленные ресурсы</text><text x="42" y="306" font-size="17" font-weight="700">УРОВЕНЬ 3 · SHARED SERVICES</text><text x="42" y="333" font-size="12" fill="#c6b9ef">Репликация · вычисления · хранилища · общие библиотеки · доступные сервисы</text></g>
+<g stroke="#55e0d0" stroke-width="3" fill="none"><path d="M450 113v33m-7-8 7 8 7-8M450 242v33m-7-8 7 8 7-8"/></g>
+<g fill="#62a9ff"><circle cx="820" cy="64" r="7"/><circle cx="820" cy="193" r="7"/><circle cx="820" cy="322" r="7"/></g>
+</svg>
+</div>
+<div class="grid g3" style="margin-top:18px">
+<div class="card"><h3>Песочница</h3><p>Бесплатный вход, виртуальная топология, учебные сценарии, безопасное воспроизведение отказов и атак только на тестовых целях.</p></div>
+<div class="card"><h3>Реальные узлы</h3><p>Участник устанавливает клиент, видит объём потребления ресурсов, задаёт лимиты и может отключить устройство в любой момент.</p></div>
+<div class="card"><h3>Общие сервисы</h3><p>Надёжные узлы предоставляют репликацию, вычисления и сервисы. Важные операции проверяются, а критичные данные резервируются.</p></div>
+</div>
+<h3 style="margin-top:34px">Устойчивость без мифов</h3>
+<p>Распределённая сеть может переживать отказ отдельных узлов и маршрутов, если у неё есть альтернативные соединения, независимые точки входа, репликация и процедуры восстановления. Но ни P2P, ни блокчейн не делают сеть физически неотключаемой: полное отсутствие каналов связи, массовая фильтрация или потеря всех копий данных остаются реальными рисками.</p>
+<div class="callout warning"><b>Про порты 80/443:</b> это распространённые порты веб-трафика, а не гарантия доступности. Архитектура должна поддерживать несколько легитимных транспортов и маршрутов, но не строиться на обещании обхода любых ограничений. Для реального продукта — прозрачная работа, согласие владельцев узлов и соблюдение законов.</div>
+<h3>Сетевые технологии-кандидаты</h3>
+<div class="tablewrap"><table><thead><tr><th>Технология</th><th>Роль в проекте</th><th>Оговорка</th></tr></thead><tbody>
+<tr><td>TCP/IP</td><td>Базовая адресация и транспорт</td><td>Изучать и моделировать на уровне протоколов</td></tr>
+<tr><td>HTTP/HTTPS, TLS</td><td>Веб-сервисы и защищённые соединения</td><td>Использовать стандартные реализации</td></tr>
+<tr><td>QUIC / HTTP/3</td><td>Современный транспорт веб-трафика</td><td>Учитывать поддержку и сетевые ограничения</td></tr>
+<tr><td>libp2p</td><td>Модульные P2P-транспорты, обнаружение и соединение узлов</td><td>Требует threat model и контроля доступа</td></tr>
+<tr><td>DHT</td><td>Распределённое обнаружение записей и узлов</td><td>Нужна защита от Sybil/Eclipse-атак</td></tr>
+<tr><td>WireGuard</td><td>Защищённые туннели между доверенными узлами</td><td>Не является универсальным решением маршрутизации</td></tr>
+<tr><td>Content addressing</td><td>Идентификация данных по содержимому</td><td>Хеш не заменяет авторизацию и шифрование</td></tr>
+</tbody></table></div>
+</div></section>
+
+<section class="section" id="protocols"><div class="wrap">
+<div class="eyebrow">04 · Protocol studio</div><h2>Протоколы и безопасность — через проверяемую разработку</h2>
+<p class="lead">Игроки могут предлагать сетевые инструменты, форматы обмена, средства диагностики и механизмы защиты. Любая новая разработка проходит путь от идеи до контролируемого внедрения.</p>
+<div class="grid g2">
+<div class="card"><h3>Жизненный цикл разработки</h3><div class="steps">
+<div class="step"><b>Draft</b><br><span class="muted">Описание проблемы, модель угроз, спецификация.</span></div>
+<div class="step"><b>Experimental</b><br><span class="muted">Прототип в изолированной лаборатории.</span></div>
+<div class="step"><b>Testing</b><br><span class="muted">Автотесты, fuzzing, совместимость, нагрузка.</span></div>
+<div class="step"><b>Audited</b><br><span class="muted">Независимый аудит и разбор рисков.</span></div>
+<div class="step"><b>Production candidate</b><br><span class="muted">Подписанная версия, постепенное развёртывание, откат.</span></div>
+</div></div>
+<div class="card"><h3>Что проверяем</h3><ul><li>Корректность спецификации и реализации.</li><li>Аутентификацию и управление ключами.</li><li>Конфиденциальность и целостность.</li><li>Совместимость и обратную совместимость.</li><li>Поведение при сбоях и потере связи.</li><li>Потребление CPU, памяти и трафика.</li><li>Возможность безопасного отката.</li></ul><div class="callout warning">Нельзя объявлять собственный алгоритм шифрования безопасным только потому, что его одобрил ИИ или большинство игроков. Криптография требует открытой спецификации, экспертного анализа и длительной проверки.</div></div>
+</div>
+</div></section>
+
+<section class="section" id="ai"><div class="wrap">
+<div class="eyebrow">05 · Collective intelligence</div><h2>ИИ, который растёт вместе с библиотекой сообщества</h2>
+<p class="lead">Не одна всемогущая нейросеть, а экосистема специализированных агентов, которые используют проверенные документы, инструменты, навыки и модели разных поставщиков.</p>
+<div class="visual">
+<svg viewBox="0 0 900 390" role="img" aria-label="Архитектура коллективной системы ИИ-агентов">
+<g stroke="#456b91" stroke-width="2" fill="none"><path d="M450 190 160 80M450 190 450 65M450 190 740 80M450 190 160 300M450 190 450 325M450 190 740 300"/></g>
+<rect x="350" y="145" width="200" height="90" rx="18" fill="#163b4a" stroke="#55e0d0" stroke-width="2"/><text x="450" y="181" fill="#fff" text-anchor="middle" font-size="18" font-weight="700">AI ORCHESTRATOR</text><text x="450" y="205" fill="#a9d9d1" text-anchor="middle" font-size="11">политики · инструменты · маршрутизация</text>
+<g fill="#14243b" stroke="#62a9ff" stroke-width="2"><rect x="70" y="35" width="180" height="85" rx="13"/><rect x="360" y="22" width="180" height="85" rx="13"/><rect x="650" y="35" width="180" height="85" rx="13"/><rect x="70" y="270" width="180" height="85" rx="13"/><rect x="360" y="285" width="180" height="85" rx="13"/><rect x="650" y="270" width="180" height="85" rx="13"/></g>
+<g fill="#e8f0fb" text-anchor="middle" font-size="13"><text x="160" y="70">Network Agent</text><text x="160" y="91" font-size="10" fill="#9aabc2">диагностика</text><text x="450" y="57">Security Agent</text><text x="450" y="78" font-size="10" fill="#9aabc2">анализ рисков</text><text x="740" y="70">Developer Agent</text><text x="740" y="91" font-size="10" fill="#9aabc2">код и тесты</text><text x="160" y="305">Knowledge Agent</text><text x="160" y="326" font-size="10" fill="#9aabc2">поиск знаний</text><text x="450" y="320">Economy Agent</text><text x="450" y="341" font-size="10" fill="#9aabc2">аудит начислений</text><text x="740" y="305">Monitoring Agent</text><text x="740" y="326" font-size="10" fill="#9aabc2">состояние узлов</text></g>
+</svg>
+</div>
+<div class="grid g3" style="margin-top:18px">
+<div class="card"><h3>Knowledge Hub</h3><p>Документы, инструкции, код, тесты, модели угроз, версии, лицензии и авторство.</p></div>
+<div class="card"><h3>Skill Registry</h3><p>Версионируемые навыки и инструменты с манифестом разрешений, тестами и подписью автора.</p></div>
+<div class="card"><h3>Agent Runtime</h3><p>Изолированное исполнение инструментов с лимитами CPU/RAM, журналированием и подтверждением опасных действий.</p></div>
+</div>
+<h3 style="margin-top:30px">Как знание попадает к агентам</h3>
+<div class="steps">
+<div class="step"><b>Публикация</b><br><span class="muted">Автор добавляет материал, код, лицензию, зависимости и тесты.</span></div>
+<div class="step"><b>Проверка</b><br><span class="muted">Автоматические проверки, сканирование зависимостей, ручной review.</span></div>
+<div class="step"><b>Индексация</b><br><span class="muted">Материал становится доступен для поиска и RAG, но сохраняет источник и версию.</span></div>
+<div class="step"><b>Использование</b><br><span class="muted">Агент получает только разрешённый навык и работает в заданных границах.</span></div>
+<div class="step"><b>Обратная связь</b><br><span class="muted">Результаты, ошибки и улучшения связываются с конкретной версией.</span></div>
+</div>
+<div class="callout">«Саморазвитие» здесь означает управляемое накопление знаний, проверенных инструментов и улучшений. Это не бесконтрольное изменение весов модели и не право ИИ самостоятельно менять production-инфраструктуру.</div>
+</div></section>
+
+<section class="section" id="ledger"><div class="wrap">
+<div class="eyebrow">06 · Trust & provenance</div><h2>Распределённая история и доказуемое авторство</h2>
+<p class="lead">Идея общей истории полезна, но не все данные должны копироваться на каждый узел. Реестр хранит доказательства событий и контрольные суммы, а большие данные живут в специализированных хранилищах.</p>
+<div class="grid g2">
+<div class="card"><h3>В реестре</h3><ul><li>Идентификатор участника и подпись.</li><li>Хеш публикации и номер версии.</li><li>Факт проверки и результат тестов.</li><li>Начисление, списание и причина.</li><li>Решение о выпуске версии.</li></ul></div>
+<div class="card"><h3>В профильных хранилищах</h3><ul><li>Исходный код и история изменений.</li><li>Большие файлы и артефакты сборки.</li><li>Документация и индекс знаний.</li><li>Логи с политикой хранения.</li><li>Зашифрованные пользовательские данные.</li></ul></div>
+</div>
+<div class="callout warning">Блокчейн не гарантирует истинность введённых данных, не предотвращает сговор и не заменяет управление ключами, резервирование, защиту приватности и юридические процедуры. На раннем этапе достаточно append-only журнала с цифровыми подписями и хеш-связью; распределённый консенсус добавляется только при доказанной необходимости.</div>
+</div></section>
+
+<section class="section" id="economy"><div class="wrap">
+<div class="eyebrow">07 · Contribution economy</div><h2>Экономика, в которой ценится проверенный вклад</h2>
+<p class="lead">Внутренняя валюта мотивирует участие в симуляторе. Реальные выплаты — отдельный финансовый процесс, зависящий от фактически полученной выручки, подтверждённого вклада, законодательства и платёжной инфраструктуры.</p>
+<div class="grid g2">
+<div class="card"><div class="tag">Internal token</div><h3>COIN</h3><div class="stat" style="color:var(--gold)">12 450</div><p>Демонстрационный баланс участника. COIN можно использовать внутри продукта: улучшать виртуальные серверы, покупать игровые ресурсы, открывать инструменты и участвовать в заданиях.</p><p class="mini">Число иллюстративное, не реальный баланс и не обещание денежной стоимости.</p></div>
+<div class="card"><div class="tag">Real revenue</div><h3>Фонд вознаграждений</h3><div class="stat" style="color:var(--green)">€10 000</div><p>Условный пример месячной чистой выручки, которую можно распределять между инфраструктурой, развитием, резервом, организатором и участниками.</p><p class="mini">Реальные проценты утверждаются прозрачно и после юридической и финансовой проверки.</p></div>
+</div>
+<h3 style="margin-top:30px">Иллюстративная модель распределения чистой выручки</h3>
+<div class="card">
+<div class="moneyrow"><b>Участники</b><div class="bar"><span style="width:40%;background:var(--blue)"></span></div><b>40%</b></div>
+<div class="moneyrow"><b>Инфраструктура</b><div class="bar"><span style="width:25%;background:var(--green)"></span></div><b>25%</b></div>
+<div class="moneyrow"><b>Развитие</b><div class="bar"><span style="width:20%;background:var(--gold)"></span></div><b>20%</b></div>
+<div class="moneyrow"><b>Организатор</b><div class="bar"><span style="width:10%;background:var(--purple)"></span></div><b>10%</b></div>
+<div class="moneyrow"><b>Резерв</b><div class="bar"><span style="width:5%;background:#8292a8"></span></div><b>5%</b></div>
+<p class="mini">Пример распределения 100% чистой выручки, а не финансовое обещание. До расчёта «чистой выручки» необходимо определить налоги, комиссии, возвраты, операционные расходы и обязательные резервы.</p>
+</div>
+<h3 style="margin-top:30px">Как оценивать вклад</h3>
+<p>Contribution Score может учитывать сложность задачи, качество результата, независимую проверку, полезность разработки, доступность предоставленного узла, стоимость вычислительных ресурсов и вклад в документацию. Нельзя начислять значимые вознаграждения только за число подключённых устройств или кликов — это стимулирует накрутку.</p>
+<div class="callout warning">COIN и право на реальные выплаты следует проектировать раздельно. Возможность покупки, передачи, погашения или обмена токена на деньги может создавать регулируемые финансовые обязательства. До запуска выплат нужны юридическая классификация, AML/KYC-процессы при необходимости, налоговая модель и платёжный партнёр.</div>
+</div></section>
+
+<section class="section" id="market"><div class="wrap">
+<div class="eyebrow">08 · Marketplace</div><h2>Задачи, разработки и реальные заказы</h2>
+<div class="grid g3">
+<div class="card"><h3>Игровые миссии</h3><p>Учебные сценарии: настройка сети, диагностика, резервирование, проверка целостности. Вознаграждение — внутриигровые COIN и опыт.</p></div>
+<div class="card"><h3>Исследовательские задачи</h3><p>Разработка инструментов, тестирование протоколов, аудит открытого кода и улучшение общих библиотек. Нужны критерии приёмки и review.</p></div>
+<div class="card"><h3>Коммерческие заказы</h3><p>Реальные задачи заказчиков: мониторинг, автоматизация, документация, инфраструктурные инструменты. Оплата — по договору и через законную платёжную схему.</p></div>
+</div>
+<h3 style="margin-top:30px">Маркетплейс как самостоятельный продукт</h3>
+<p>Каждый заказ имеет постановку задачи, бюджет, сроки, критерии приёмки, допустимые среды тестирования, требования к лицензии и процедуру разрешения споров. Заказчик не должен получать доступ к чужим серверам или данным без явного разрешения.</p>
+</div></section>
+
+<section class="section" id="architecture"><div class="wrap">
+<div class="eyebrow">09 · System architecture</div><h2>Модульная архитектура вместо одного монолита</h2>
+<p class="lead">Систему необходимо разделить на контуры. Игровой backend не должен иметь прямого административного доступа к компьютерам участников. ИИ не должен самостоятельно менять production-конфигурации. Экономический учёт должен быть отделён от игрового интерфейса.</p>
+<div class="visual">
+<svg viewBox="0 0 900 500" role="img" aria-label="Архитектурная схема NETWORK CORE">
+<rect x="25" y="20" width="850" height="72" rx="12" fill="#14243b" stroke="#426a91"/><text x="450" y="48" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">CLIENT LAYER</text><text x="450" y="70" text-anchor="middle" fill="#a9bfd7" font-size="12">Web UI · Desktop Node Client · Admin Console</text>
+<path d="M450 92v30" stroke="#55e0d0" stroke-width="2"/><path d="M443 114l7 8 7-8" fill="none" stroke="#55e0d0" stroke-width="2"/>
+<rect x="25" y="125" width="850" height="70" rx="12" fill="#102b36" stroke="#328c93"/><text x="450" y="153" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">API & IDENTITY</text><text x="450" y="175" text-anchor="middle" fill="#a9d9d1" font-size="12">API Gateway · Auth · Permission Engine · Node Registry</text>
+<path d="M450 195v28" stroke="#55e0d0" stroke-width="2"/>
+<g fill="#17223a" stroke="#6179a7"><rect x="25" y="225" width="200" height="90" rx="12"/><rect x="245" y="225" width="200" height="90" rx="12"/><rect x="465" y="225" width="200" height="90" rx="12"/><rect x="685" y="225" width="190" height="90" rx="12"/></g>
+<g fill="#e8f0fb" text-anchor="middle" font-size="14"><text x="125" y="260">GAME SERVICES</text><text x="125" y="282" font-size="11" fill="#9aabc2">tasks · profiles · VPS</text><text x="345" y="260">NETWORK CORE</text><text x="345" y="282" font-size="11" fill="#9aabc2">P2P · node agent</text><text x="565" y="260">AI & KNOWLEDGE</text><text x="565" y="282" font-size="11" fill="#9aabc2">agents · RAG · skills</text><text x="780" y="260">ECONOMY</text><text x="780" y="282" font-size="11" fill="#9aabc2">ledger · rewards</text></g>
+<path d="M125 315v35h655v-35M345 315v35M565 315v35" fill="none" stroke="#456b91" stroke-width="2"/>
+<rect x="25" y="355" width="850" height="115" rx="12" fill="#211d36" stroke="#7866a8"/><text x="450" y="385" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">DATA & TRUST LAYER</text><text x="450" y="410" text-anchor="middle" fill="#c6b9ef" font-size="12">PostgreSQL · Object Storage · Search Index · Signed Event Log · Monitoring</text><text x="450" y="442" text-anchor="middle" fill="#9aabc2" font-size="11">Secrets management · backups · audit trails · policy enforcement</text>
+</svg>
+</div>
+<h3 style="margin-top:30px">Предварительный технологический стек</h3>
+<div class="tablewrap"><table><thead><tr><th>Область</th><th>Кандидаты</th><th>Почему</th></tr></thead><tbody>
+<tr><td>Frontend</td><td>React, TypeScript, Tailwind CSS</td><td>Компонентный UI и типизация</td></tr>
+<tr><td>Backend</td><td>Python / FastAPI или Go</td><td>API, сервисы и сетевые агенты</td></tr>
+<tr><td>Данные</td><td>PostgreSQL, Redis, S3-compatible storage</td><td>Транзакции, кэш и файлы</td></tr>
+<tr><td>События</td><td>NATS или аналог</td><td>Асинхронные события между сервисами</td></tr>
+<tr><td>P2P</td><td>libp2p</td><td>Модульная коммуникация узлов</td></tr>
+<tr><td>AI / Search</td><td>RAG, Qdrant или аналог, модельный gateway</td><td>Поиск знаний и сменяемость моделей</td></tr>
+<tr><td>Runtime</td><td>Docker, gVisor/VM isolation, позже Kubernetes</td><td>Контроль исполнения и масштабирование</td></tr>
+<tr><td>Observability</td><td>OpenTelemetry, Prometheus, Grafana</td><td>Метрики, трассировки и диагностика</td></tr>
+</tbody></table></div>
+<div class="callout">Стек — набор кандидатов, а не требование использовать всё с первого дня. Для MVP достаточно React, одного backend, PostgreSQL, очереди задач и изолированного симулятора.</div>
+</div></section>
+
+<section class="section" id="security"><div class="wrap">
+<div class="eyebrow">10 · Safety by design</div><h2>Безопасность должна быть свойством архитектуры</h2>
+<div class="grid g3">
+<div class="card"><h3>Изоляция</h3><p>Эксперименты выполняются в контейнерах или виртуальных машинах с ограничениями CPU, RAM, диска, сети и времени.</p></div>
+<div class="card"><h3>Минимальные права</h3><p>Клиент узла получает только явно выданные разрешения. Никакого скрытого удалённого управления или доступа к личным данным.</p></div>
+<div class="card"><h3>Проверяемые обновления</h3><p>Подписанные сборки, воспроизводимые артефакты, staged rollout, журнал изменений и механизм отката.</p></div>
+<div class="card"><h3>Защита от Sybil</h3><p>Нельзя считать каждый зарегистрированный аккаунт или узел отдельным честным участником. Нужны лимиты и доказательства вклада.</p></div>
+<div class="card"><h3>Приватность</h3><p>Собирать минимум телеметрии, не публиковать содержимое личных сообщений, шифровать чувствительные данные.</p></div>
+<div class="card"><h3>Ответственное тестирование</h3><p>Атакующие сценарии — только на собственных стендах, тестовых целях или системах с документированным разрешением.</p></div>
+</div>
+</div></section>
+
+<section class="section" id="roadmap"><div class="wrap">
+<div class="eyebrow">11 · Execution plan</div><h2>Дорожная карта: от демонстрации к работающей системе</h2>
+<p class="lead">Сроки ниже — грубые ориентиры для команды, а не обещание. Переход к следующему этапу определяется не календарём, а работающими критериями приёмки.</p>
+<div class="roadmap">
+<div class="card phase"><small>PHASE 01 · MVP</small><h3>Игровое ядро</h3><ul><li>Профили и авторизация</li><li>VPS Builder</li><li>Виртуальная карта сети</li><li>Первые задачи</li><li>Тестовый COIN ledger</li></ul><p class="mini">Критерий: пользователь проходит полный игровой цикл.</p></div>
+<div class="card phase"><small>PHASE 02</small><h3>Сетевая лаборатория</h3><ul><li>Симуляция TCP/IP</li><li>Передача сообщений</li><li>Сценарии отказов</li><li>Тестирование TLS</li><li>Оценка результатов</li></ul><p class="mini">Критерий: задачи воспроизводимы и автоматически проверяются.</p></div>
+<div class="card phase"><small>PHASE 03</small><h3>AI & Knowledge</h3><ul><li>Реестр навыков</li><li>RAG-поиск</li><li>Агентный runtime</li><li>Review и версии</li><li>Песочница инструментов</li></ul><p class="mini">Критерий: агент безопасно использует проверенный навык.</p></div>
+<div class="card phase"><small>PHASE 04</small><h3>Реальные узлы</h3><ul><li>Node Client</li><li>Добровольные лимиты</li><li>Регистрация VPS</li><li>Мониторинг</li><li>Отключение и отзыв ключей</li></ul><p class="mini">Критерий: узел подключается и отключается без риска для владельца.</p></div>
+<div class="card phase"><small>PHASE 05</small><h3>Экономика и рынок</h3><ul><li>Contribution Score</li><li>Marketplace</li><li>Прозрачный фонд</li><li>Партнёры по выплатам</li><li>Юридическая модель</li></ul><p class="mini">Критерий: вклад проверяется, расчёт воспроизводим и прозрачен.</p></div>
+<div class="card phase"><small>PHASE 06</small><h3>Масштабирование</h3><ul><li>Независимые узлы</li><li>Репликация</li><li>Восстановление</li><li>Управление сообществом</li><li>Независимые аудиты</li></ul><p class="mini">Критерий: сеть выдерживает заранее определённые сценарии отказов.</p></div>
+</div>
+<h3 style="margin-top:34px">Что должно войти в первый релиз — и чего там не должно быть</h3>
+<div class="grid g2">
+<div class="card"><h3 style="color:var(--green)">Включить</h3><ul><li>Виртуальную сборку VPS.</li><li>Интерактивную карту узлов.</li><li>5–10 обучающих миссий.</li><li>Симуляцию передачи данных.</li><li>Простой реестр знаний.</li><li>Демо-баланс COIN.</li><li>Админ-панель и аудит событий.</li></ul></div>
+<div class="card"><h3 style="color:var(--red)">Не включать пока</h3><ul><li>Собственный криптографический алгоритм.</li><li>Обязательный блокчейн.</li><li>Свободное выполнение кода на ПК игроков.</li><li>Автоматические денежные выплаты.</li><li>Обещание полной неотключаемости.</li><li>Неограниченное самоизменение ИИ.</li><li>Глобальную production-сеть без аудита.</li></ul></div>
+</div>
+</div></section>
+
+<section class="section" id="governance"><div class="wrap">
+<div class="eyebrow">12 · Governance</div><h2>Правила развития общей системы</h2>
+<p>Если участники создают общие протоколы, библиотеки и инфраструктуру, нужны понятные правила принятия решений. Репутация автора не должна давать ему неограниченный доступ к чужим ресурсам или возможность единолично менять критические компоненты.</p>
+<div class="grid g3">
+<div class="card"><h3>Открытые предложения</h3><p>Любое существенное изменение оформляется как предложение с обоснованием, рисками, планом тестирования и обратной совместимостью.</p></div>
+<div class="card"><h3>Разделение полномочий</h3><p>Автор, reviewer, оператор инфраструктуры и финансовый контролёр — разные роли для критичных операций.</p></div>
+<div class="card"><h3>Прозрачность</h3><p>Публичные версии, решения, изменения правил начисления и отчёты по фондам доступны для проверки.</p></div>
+</div>
+</div></section>
+
+<section class="section" id="glossary"><div class="wrap">
+<div class="eyebrow">13 · Reference desk</div><h2>Справочник терминов</h2>
+<dl class="glossary">
+<dt>Узел (Node)</dt><dd>Устройство или программный процесс, участвующий в сети и имеющий идентификатор и разрешённые функции.</dd>
+<dt>VPS</dt><dd>Виртуальный частный сервер — изолированная виртуальная среда с выделенными лимитами ресурсов.</dd>
+<dt>P2P</dt><dd>Модель взаимодействия, при которой участники могут обмениваться данными напрямую, без обязательного центрального посредника для каждого обмена.</dd>
+<dt>Mesh network</dt><dd>Топология, в которой узлы имеют несколько связей и могут передавать данные через альтернативные маршруты.</dd>
+<dt>DHT</dt><dd>Распределённая хеш-таблица — механизм поиска значений и участников в распределённой системе.</dd>
+<dt>QUIC</dt><dd>Транспортный протокол поверх UDP, используемый HTTP/3 и другими приложениями.</dd>
+<dt>TLS</dt><dd>Криптографический протокол защиты канала связи, обеспечивающий шифрование и проверку подлинности в соответствующей конфигурации.</dd>
+<dt>Content addressing</dt><dd>Подход, при котором объект идентифицируется по криптографическому хешу содержимого, а не только по местоположению.</dd>
+<dt>RAG</dt><dd>Retrieval-Augmented Generation — подход, при котором модель получает релевантные фрагменты внешней базы знаний перед формированием ответа.</dd>
+<dt>Skill Registry</dt><dd>Реестр версионируемых инструментов и навыков ИИ с описанием возможностей, разрешений, зависимостей и тестов.</dd>
+<dt>Sybil attack</dt><dd>Атака, при которой один субъект создаёт множество фиктивных идентичностей, чтобы влиять на систему.</dd>
+<dt>Contribution Score</dt><dd>Оценка подтверждённого вклада участника, используемая для репутации и, при наличии выручки, расчёта вознаграждений.</dd>
+<dt>Append-only log</dt><dd>Журнал, в который новые события добавляются последовательно, а изменение истории обнаруживается по контрольным суммам и подписям.</dd>
+</dl>
+</div></section>
+
+<section class="section" id="references"><div class="wrap">
+<div class="eyebrow">14 · Documentation & sources</div><h2>Технические справочники и первоисточники</h2>
+<p class="lead">Ниже — отправные точки для проектирования. Это не список технологий, которые нужно бездумно внедрить: каждую следует оценивать по требованиям, угрозам, лицензии, зрелости и стоимости эксплуатации.</p>
+<div class="grid g2">
+<div class="card"><h3>Сеть и транспорт</h3><ul class="refs">
+<li><a href="https://www.rfc-editor.org/rfc/rfc9000" target="_blank" rel="noopener">RFC 9000 — QUIC</a><br><span class="mini">Спецификация транспортного протокола QUIC.</span></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc9114" target="_blank" rel="noopener">RFC 9114 — HTTP/3</a><br><span class="mini">HTTP/3 поверх QUIC.</span></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc8446" target="_blank" rel="noopener">RFC 8446 — TLS 1.3</a><br><span class="mini">Стандарт TLS 1.3.</span></li>
+<li><a href="https://libp2p.io/" target="_blank" rel="noopener">libp2p</a><br><span class="mini">Модульный стек для P2P-приложений.</span></li>
+<li><a href="https://www.wireguard.com/" target="_blank" rel="noopener">WireGuard</a><br><span class="mini">Современный VPN-туннель.</span></li>
+</ul></div>
+<div class="card"><h3>Распределённые данные</h3><ul class="refs">
+<li><a href="https://docs.ipfs.tech/" target="_blank" rel="noopener">IPFS Documentation</a><br><span class="mini">Content addressing и распределённое хранение.</span></li>
+<li><a href="https://www.rfc-editor.org/rfc/rfc6962" target="_blank" rel="noopener">RFC 6962 — Certificate Transparency</a><br><span class="mini">Merkle-структуры и проверяемые журналы.</span></li>
+<li><a href="https://developer.bitcoin.org/devguide/" target="_blank" rel="noopener">Bitcoin Developer Guide</a><br><span class="mini">Модель узлов, транзакций и консенсуса Bitcoin.</span></li>
+<li><a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL Documentation</a><br><span class="mini">Транзакционная реляционная база данных.</span></li>
+</ul></div>
+<div class="card"><h3>Безопасность и стандарты</h3><ul class="refs">
+<li><a href="https://csrc.nist.gov/pubs/sp/800/218/final" target="_blank" rel="noopener">NIST SSDF — SP 800-218</a><br><span class="mini">Практики безопасной разработки ПО.</span></li>
+<li><a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">OWASP Top 10</a><br><span class="mini">Типовые риски безопасности веб-приложений.</span></li>
+<li><a href="https://slsa.dev/" target="_blank" rel="noopener">SLSA</a><br><span class="mini">Уровни гарантий целостности цепочки поставки ПО.</span></li>
+<li><a href="https://www.sigstore.dev/" target="_blank" rel="noopener">Sigstore</a><br><span class="mini">Подпись и проверяемое происхождение артефактов.</span></li>
+</ul></div>
+<div class="card"><h3>ИИ и регулирование</h3><ul class="refs">
+<li><a href="https://platform.openai.com/docs/" target="_blank" rel="noopener">OpenAI API Documentation</a><br><span class="mini">Интеграция моделей и инструментов.</span></li>
+<li><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener">NIST AI Risk Management Framework</a><br><span class="mini">Управление рисками ИИ.</span></li>
+<li><a href="https://eur-lex.europa.eu/eli/reg/2023/1114/oj" target="_blank" rel="noopener">EU MiCA Regulation</a><br><span class="mini">Регулирование рынков криптоактивов в ЕС; применимость зависит от фактической модели токена и услуг.</span></li>
+<li><a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj" target="_blank" rel="noopener">EU AI Act</a><br><span class="mini">Регламент ЕС об искусственном интеллекте.</span></li>
+</ul></div>
+</div>
+<p class="mini">Ссылки ведут на стандарты, документацию и нормативные первоисточники. Перед коммерческим запуском необходимо проверять актуальные редакции документов и получать профильную юридическую консультацию.</p>
+</div></section>
+
+<section class="section"><div class="wrap">
+<div class="eyebrow">15 · The long game</div><h2>Большой проект начинается с работающего ядра</h2>
+<p class="lead">Возможность NETWORK CORE не в том, чтобы за один запуск заменить интернет, создать новую криптографию или построить собственный мировой дата-центр. Возможность — собрать людей, инструменты и стимулы в систему, где каждый следующий участник может добавить измеримую ценность.</p>
+<div class="grid g3">
+<div class="card"><div class="tag">For developers</div><h3>Территория для создателей</h3><p>Разработчики получают лабораторию, реальные задачи, совместные библиотеки, публичную историю вклада и возможность строить продукты вместе.</p></div>
+<div class="card"><div class="tag">For researchers</div><h3>Среда для экспериментов</h3><p>Инженеры и исследователи получают воспроизводимые тесты, стенды, сравнение подходов и коллективный review.</p></div>
+<div class="card"><div class="tag">For everyone</div><h3>Вход через игру</h3><p>Новичку не нужно сразу быть сетевым инженером. Он начинает с понятной задачи и постепенно осваивает сложные технологии.</p></div>
+</div>
+<div class="callout"><b>Принцип проекта:</b> не обещать невозможное — строить проверяемое. Не просто собирать пользователей — давать им инструменты создавать. Не раздавать токены за активность — вознаграждать полезный и подтверждённый вклад.</div>
+<h3>Следующая практическая цель</h3><p>Собрать интерактивный MVP: один экран лаборатории, сборка виртуального VPS, карта из нескольких узлов, передача тестового сообщения, одна миссия с автоматической проверкой, библиотека одного навыка ИИ и демонстрационный COIN-журнал. Если этот цикл работает, у проекта появляется проверяемое ядро, которое можно расширять.</p>
+</div></section>
+</main>
+<footer class="footer"><div class="wrap"><b>NETWORK CORE</b> · Концепция распределённой технологической экосистемы · Документ для обсуждения и проектирования.<br><span class="mini">Все интерфейсные балансы, проценты, узлы и сценарии на странице являются концептуальными примерами, а не действующими услугами или финансовыми обещаниями.</span></div></footer>
+</body></html>

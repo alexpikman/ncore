@@ -1,0 +1,325 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Primitive Helpers ---
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isVerifiedUser() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        request.auth.token.email == 'alex.pikman@gmail.com'
+      );
+    }
+
+    function isValidVisibility(v) {
+      return v is string && v in ['public', 'private'];
+    }
+
+    function isValidAuthorFields(data) {
+      return data.authorId is string
+        && isValidId(data.authorId)
+        && data.authorId == request.auth.uid
+        && data.authorName is string
+        && data.authorName.size() >= 1
+        && data.authorName.size() <= 80;
+    }
+
+    // --- Validation Blueprints ---
+    function isValidEntry(data) {
+      return data.keys().hasAll([
+          'title', 'summary', 'body', 'category', 'status',
+          'visibility', 'sectionRef', 'authorId', 'authorName',
+          'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'title', 'summary', 'body', 'category', 'status',
+          'visibility', 'sectionRef', 'authorId', 'authorName',
+          'createdAt', 'updatedAt'
+        ])
+        && data.title is string && data.title.size() >= 3 && data.title.size() <= 140
+        && data.summary is string && data.summary.size() >= 5 && data.summary.size() <= 400
+        && data.body is string && data.body.size() >= 10 && data.body.size() <= 12000
+        && data.category is string && data.category in ['concept', 'network', 'simulator', 'ai', 'economy', 'proposal']
+        && data.status is string && data.status in ['draft', 'discussion', 'accepted']
+        && isValidVisibility(data.visibility)
+        && data.sectionRef is string && data.sectionRef.size() <= 64 && data.sectionRef.matches('^[a-zA-Z0-9_\\-]*$')
+        && data.authorId is string && isValidId(data.authorId)
+        && data.authorName is string && data.authorName.size() >= 1 && data.authorName.size() <= 80
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidComment(data, parentEntryId) {
+      return data.keys().hasAll(['entryId', 'entryVisibility', 'body', 'authorId', 'authorName', 'createdAt'])
+        && data.keys().hasOnly(['entryId', 'entryVisibility', 'body', 'authorId', 'authorName', 'createdAt'])
+        && data.entryId is string && data.entryId == parentEntryId
+        && isValidVisibility(data.entryVisibility)
+        && data.body is string && data.body.size() >= 2 && data.body.size() <= 2000
+        && data.authorId is string && isValidId(data.authorId)
+        && data.authorName is string && data.authorName.size() >= 1 && data.authorName.size() <= 80
+        && data.createdAt is timestamp;
+    }
+
+    function isValidAddendum(data) {
+      return data.keys().hasAll([
+          'sectionId', 'title', 'content', 'kind', 'visibility',
+          'authorId', 'authorName', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'sectionId', 'title', 'content', 'kind', 'visibility',
+          'authorId', 'authorName', 'createdAt', 'updatedAt'
+        ])
+        && data.sectionId is string && data.sectionId in [
+          'vision', 'game', 'network', 'protocols', 'ai', 'ledger',
+          'economy', 'market', 'architecture', 'security', 'roadmap', 'governance'
+        ]
+        && data.title is string && data.title.size() >= 3 && data.title.size() <= 140
+        && data.content is string && data.content.size() >= 10 && data.content.size() <= 6000
+        && data.kind is string && data.kind in ['note', 'proposal', 'architecture', 'risk']
+        && isValidVisibility(data.visibility)
+        && data.authorId is string && isValidId(data.authorId)
+        && data.authorName is string && data.authorName.size() >= 1 && data.authorName.size() <= 80
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidGlossaryTerm(data) {
+      return data.keys().hasAll([
+          'term', 'definition', 'domain', 'visibility',
+          'authorId', 'authorName', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'term', 'definition', 'domain', 'visibility',
+          'authorId', 'authorName', 'createdAt', 'updatedAt'
+        ])
+        && data.term is string && data.term.size() >= 2 && data.term.size() <= 80
+        && data.definition is string && data.definition.size() >= 5 && data.definition.size() <= 1000
+        && data.domain is string && data.domain in ['network', 'ai', 'economy', 'security', 'general']
+        && isValidVisibility(data.visibility)
+        && data.authorId is string && isValidId(data.authorId)
+        && data.authorName is string && data.authorName.size() >= 1 && data.authorName.size() <= 80
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidRoadmapItem(data) {
+      return data.keys().hasAll([
+          'phaseId', 'title', 'description', 'state', 'visibility',
+          'authorId', 'authorName', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'phaseId', 'title', 'description', 'state', 'visibility',
+          'authorId', 'authorName', 'createdAt', 'updatedAt'
+        ])
+        && data.phaseId is string && data.phaseId in ['phase1', 'phase2', 'phase3', 'phase4', 'phase5', 'phase6']
+        && data.title is string && data.title.size() >= 3 && data.title.size() <= 120
+        && data.description is string && data.description.size() >= 5 && data.description.size() <= 600
+        && data.state is string && data.state in ['planned', 'in_progress', 'done']
+        && isValidVisibility(data.visibility)
+        && data.authorId is string && isValidId(data.authorId)
+        && data.authorName is string && data.authorName.size() >= 1 && data.authorName.size() <= 80
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // --- Admins Collection (Read-only self check) ---
+    match /admins/{uid} {
+      allow get: if isVerifiedUser() && (request.auth.uid == uid || isAdmin());
+      allow list: if false;
+      allow write: if false;
+    }
+
+    // --- Portal Entries ---
+    match /entries/{entryId} {
+      allow get: if isValidId(entryId) && (
+        existing().visibility == 'public' ||
+        (isVerifiedUser() && (existing().authorId == request.auth.uid || isAdmin()))
+      );
+      allow list: if existing().visibility == 'public' ||
+        (isVerifiedUser() && (existing().authorId == request.auth.uid || isAdmin()));
+
+      allow create: if isVerifiedUser()
+        && isValidId(entryId)
+        && isValidEntry(incoming())
+        && isValidAuthorFields(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (incoming().status in ['draft', 'discussion'] || isAdmin());
+
+      allow update: if isVerifiedUser()
+        && isValidId(entryId)
+        && isValidEntry(incoming())
+        && incoming().authorId == existing().authorId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          (isAdmin() && incoming().diff(existing()).affectedKeys().hasOnly([
+            'title', 'summary', 'body', 'category', 'status', 'visibility', 'sectionRef', 'updatedAt'
+          ])) ||
+          (existing().authorId == request.auth.uid
+            && existing().status != 'accepted'
+            && incoming().status in ['draft', 'discussion']
+            && incoming().diff(existing()).affectedKeys().hasOnly([
+              'title', 'summary', 'body', 'category', 'status', 'visibility', 'sectionRef', 'updatedAt'
+            ]))
+        );
+
+      allow delete: if isVerifiedUser()
+        && isValidId(entryId)
+        && (isAdmin() || (existing().authorId == request.auth.uid && existing().status != 'accepted'));
+
+      // --- Comments Subcollection (Master Gate) ---
+      match /comments/{commentId} {
+        allow get: if isValidId(entryId) && isValidId(commentId) && (
+          get(/databases/$(database)/documents/entries/$(entryId)).data.visibility == 'public' ||
+          (isVerifiedUser() && (
+            get(/databases/$(database)/documents/entries/$(entryId)).data.authorId == request.auth.uid ||
+            isAdmin()
+          ))
+        );
+        allow list: if existing().entryVisibility == 'public' ||
+          (isVerifiedUser() && (existing().authorId == request.auth.uid || isAdmin()));
+
+        allow create: if isVerifiedUser()
+          && isValidId(entryId)
+          && isValidId(commentId)
+          && isValidComment(incoming(), entryId)
+          && isValidAuthorFields(incoming())
+          && incoming().createdAt == request.time
+          && exists(/databases/$(database)/documents/entries/$(entryId))
+          && incoming().entryVisibility == get(/databases/$(database)/documents/entries/$(entryId)).data.visibility
+          && (
+            get(/databases/$(database)/documents/entries/$(entryId)).data.visibility == 'public' ||
+            get(/databases/$(database)/documents/entries/$(entryId)).data.authorId == request.auth.uid ||
+            isAdmin()
+          );
+
+        allow update: if false;
+
+        allow delete: if isVerifiedUser()
+          && isValidId(entryId)
+          && isValidId(commentId)
+          && (isAdmin() || existing().authorId == request.auth.uid);
+      }
+    }
+
+    // --- Concept Addenda ---
+    match /concept_addenda/{addendumId} {
+      allow get: if isValidId(addendumId) && (
+        existing().visibility == 'public' ||
+        (isVerifiedUser() && (existing().authorId == request.auth.uid || isAdmin()))
+      );
+      allow list: if existing().visibility == 'public' ||
+        (isVerifiedUser() && (existing().authorId == request.auth.uid || isAdmin()));
+
+      allow create: if isVerifiedUser()
+        && isValidId(addendumId)
+        && isValidAddendum(incoming())
+        && isValidAuthorFields(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isVerifiedUser()
+        && isValidId(addendumId)
+        && isValidAddendum(incoming())
+        && incoming().authorId == existing().authorId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (isAdmin() || existing().authorId == request.auth.uid)
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'sectionId', 'title', 'content', 'kind', 'visibility', 'updatedAt'
+        ]);
+
+      allow delete: if isVerifiedUser()
+        && isValidId(addendumId)
+        && (isAdmin() || existing().authorId == request.auth.uid);
+    }
+
+    // --- Glossary Terms ---
+    match /glossary_terms/{termId} {
+      allow get: if isValidId(termId) && (
+        existing().visibility == 'public' ||
+        (isVerifiedUser() && (existing().authorId == request.auth.uid || isAdmin()))
+      );
+      allow list: if existing().visibility == 'public' ||
+        (isVerifiedUser() && (existing().authorId == request.auth.uid || isAdmin()));
+
+      allow create: if isVerifiedUser()
+        && isValidId(termId)
+        && isValidGlossaryTerm(incoming())
+        && isValidAuthorFields(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isVerifiedUser()
+        && isValidId(termId)
+        && isValidGlossaryTerm(incoming())
+        && incoming().authorId == existing().authorId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (isAdmin() || existing().authorId == request.auth.uid)
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'term', 'definition', 'domain', 'visibility', 'updatedAt'
+        ]);
+
+      allow delete: if isVerifiedUser()
+        && isValidId(termId)
+        && (isAdmin() || existing().authorId == request.auth.uid);
+    }
+
+    // --- Roadmap Items ---
+    match /roadmap_items/{itemId} {
+      allow get: if isValidId(itemId) && (
+        existing().visibility == 'public' ||
+        (isVerifiedUser() && (existing().authorId == request.auth.uid || isAdmin()))
+      );
+      allow list: if existing().visibility == 'public' ||
+        (isVerifiedUser() && (existing().authorId == request.auth.uid || isAdmin()));
+
+      allow create: if isVerifiedUser()
+        && isValidId(itemId)
+        && isValidRoadmapItem(incoming())
+        && isValidAuthorFields(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isVerifiedUser()
+        && isValidId(itemId)
+        && isValidRoadmapItem(incoming())
+        && incoming().authorId == existing().authorId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (isAdmin() || existing().authorId == request.auth.uid)
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'phaseId', 'title', 'description', 'state', 'visibility', 'updatedAt'
+        ]);
+
+      allow delete: if isVerifiedUser()
+        && isValidId(itemId)
+        && (isAdmin() || existing().authorId == request.auth.uid);
+    }
+  }
+}

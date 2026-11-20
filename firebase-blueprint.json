@@ -1,0 +1,371 @@
+{
+  "entities": {
+    "PortalEntry": {
+      "title": "PortalEntry",
+      "description": "An article, concept extension, technical note, or RFC proposal published to the NETWORK CORE informational portal.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 140,
+          "description": "Entry headline"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 400,
+          "description": "Concise deck or summary"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 12000,
+          "description": "Full structured prose content"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["concept", "network", "simulator", "ai", "economy", "proposal"],
+          "description": "Top-level portal category"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "discussion", "accepted"],
+          "description": "Editorial review status"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public", "private"],
+          "description": "Whether the entry is publicly readable on the portal"
+        },
+        "sectionRef": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_-]*$",
+          "description": "Optional concept section anchor"
+        },
+        "authorId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Authenticated author UID"
+        },
+        "authorName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Public display name without PII"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last-updated timestamp"
+        }
+      },
+      "required": [
+        "title",
+        "summary",
+        "body",
+        "category",
+        "status",
+        "visibility",
+        "sectionRef",
+        "authorId",
+        "authorName",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "EntryComment": {
+      "title": "EntryComment",
+      "description": "A contributor comment or addendum on a portal entry.",
+      "type": "object",
+      "properties": {
+        "entryId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Parent entry ID"
+        },
+        "entryVisibility": {
+          "type": "string",
+          "enum": ["public", "private"],
+          "description": "Mirrored visibility of the parent entry"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 2000,
+          "description": "Comment body text"
+        },
+        "authorId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Authenticated author UID"
+        },
+        "authorName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Public display name without PII"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        }
+      },
+      "required": [
+        "entryId",
+        "entryVisibility",
+        "body",
+        "authorId",
+        "authorName",
+        "createdAt"
+      ]
+    },
+    "ConceptAddendum": {
+      "title": "ConceptAddendum",
+      "description": "A structured extension or note attached directly to a NETWORK CORE concept chapter.",
+      "type": "object",
+      "properties": {
+        "sectionId": {
+          "type": "string",
+          "enum": [
+            "vision",
+            "game",
+            "network",
+            "protocols",
+            "ai",
+            "ledger",
+            "economy",
+            "market",
+            "architecture",
+            "security",
+            "roadmap",
+            "governance"
+          ],
+          "description": "Target concept chapter identifier"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 140,
+          "description": "Addendum title"
+        },
+        "content": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 6000,
+          "description": "Detailed addendum text"
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["note", "proposal", "architecture", "risk"],
+          "description": "Classification of the addition"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public", "private"],
+          "description": "Public or private draft visibility"
+        },
+        "authorId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Authenticated author UID"
+        },
+        "authorName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Public display name without PII"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last-updated timestamp"
+        }
+      },
+      "required": [
+        "sectionId",
+        "title",
+        "content",
+        "kind",
+        "visibility",
+        "authorId",
+        "authorName",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "GlossaryTerm": {
+      "title": "GlossaryTerm",
+      "description": "A technical term and definition added to the NETWORK CORE reference glossary.",
+      "type": "object",
+      "properties": {
+        "term": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80,
+          "description": "Term name"
+        },
+        "definition": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 1000,
+          "description": "Clear definition of the term"
+        },
+        "domain": {
+          "type": "string",
+          "enum": ["network", "ai", "economy", "security", "general"],
+          "description": "Subject domain"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public", "private"],
+          "description": "Visibility status"
+        },
+        "authorId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Authenticated author UID"
+        },
+        "authorName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Public display name without PII"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last-updated timestamp"
+        }
+      },
+      "required": [
+        "term",
+        "definition",
+        "domain",
+        "visibility",
+        "authorId",
+        "authorName",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "RoadmapItem": {
+      "title": "RoadmapItem",
+      "description": "A milestone or development task added to a NETWORK CORE roadmap phase.",
+      "type": "object",
+      "properties": {
+        "phaseId": {
+          "type": "string",
+          "enum": ["phase1", "phase2", "phase3", "phase4", "phase5", "phase6"],
+          "description": "Target roadmap phase"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 120,
+          "description": "Milestone title"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 600,
+          "description": "Milestone acceptance criteria or details"
+        },
+        "state": {
+          "type": "string",
+          "enum": ["planned", "in_progress", "done"],
+          "description": "Execution state"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public", "private"],
+          "description": "Visibility status"
+        },
+        "authorId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Authenticated author UID"
+        },
+        "authorName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Public display name without PII"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last-updated timestamp"
+        }
+      },
+      "required": [
+        "phaseId",
+        "title",
+        "description",
+        "state",
+        "visibility",
+        "authorId",
+        "authorName",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/entries/{entryId}": {
+      "schema": { "$ref": "#/entities/PortalEntry" },
+      "description": "Informational portal articles, proposals, and research notes."
+    },
+    "/entries/{entryId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/EntryComment" },
+      "description": "Discussion comments and peer reviews attached to a portal entry."
+    },
+    "/concept_addenda/{addendumId}": {
+      "schema": { "$ref": "#/entities/ConceptAddendum" },
+      "description": "Section-specific extensions and architectural notes added to the core concept."
+    },
+    "/glossary_terms/{termId}": {
+      "schema": { "$ref": "#/entities/GlossaryTerm" },
+      "description": "Community-contributed glossary definitions."
+    },
+    "/roadmap_items/{itemId}": {
+      "schema": { "$ref": "#/entities/RoadmapItem" },
+      "description": "Future development tasks and milestones across the six roadmap phases."
+    }
+  }
+}
