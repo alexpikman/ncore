@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./logo_NCORE.jfif" alt="NETWORK CORE logo" width="180" />
+<img src="https://raw.githubusercontent.com/alexpikman/ncore/main/logo_NCORE.jfif" alt="NETWORK CORE logo" width="180" />
 
 # NETWORK CORE
 
