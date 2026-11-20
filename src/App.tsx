@@ -34,6 +34,7 @@ import { Header } from './components/Header';
 import { KnowledgeBaseSection } from './components/KnowledgeBaseSection';
 import { HeroTopologyDiagram } from './components/NetworkDiagrams';
 import { AnimatedNetworkSection } from './components/AnimatedNetworkSection';
+import { Gameplay } from './Gameplay/Gameplay';
 import { RoadmapAndReference } from './components/RoadmapAndReference';
 import { deleteConceptAddendum } from './services/portalService';
 
@@ -42,6 +43,7 @@ function PortalContent() {
   const [authLoading, setAuthLoading] = useState(true);
   const [authNotice, setAuthNotice] = useState<string | null>(null);
   const [activeChapter, setActiveChapter] = useState<ChapterKey>('vision_game');
+  const [activeView, setActiveView] = useState<'portal' | 'gameplay'>('portal');
 
   const [firestoreEntries, setFirestoreEntries] = useState<PortalEntry[]>([]);
   const [addenda, setAddenda] = useState<ConceptAddendum[]>([]);
@@ -88,14 +90,26 @@ function PortalContent() {
     [allEntries, selectedEntryId],
   );
 
-  const handleSignIn = async () => {
+  const performSignIn = async (): Promise<boolean> => {
     setAuthNotice(null);
     try {
       await signInWithGoogle();
+      return true;
     } catch (err) {
       setAuthNotice(
         err instanceof Error ? err.message : 'Не удалось выполнить вход через Google.',
       );
+      return false;
+    }
+  };
+
+  const handleSignIn = async () => {
+    await performSignIn();
+  };
+
+  const handleEnterGame = async () => {
+    if (user || await performSignIn()) {
+      setActiveView('gameplay');
     }
   };
 
@@ -137,11 +151,17 @@ function PortalContent() {
     URL.revokeObjectURL(url);
   };
 
+  if (activeView === 'gameplay' && user) {
+    return <Gameplay key={user.uid} user={user} onExit={() => setActiveView('portal')} />;
+  }
+
   return (
     <div id="top" className="min-h-screen bg-[#090E1A] text-[#E6EDF7] flex flex-col">
       <Header
-        onOpenEditor={() => openEditorForTab('entry')}
         onSelectEconomy={() => setActiveChapter('economy_market')}
+        isAuthenticated={Boolean(user)}
+        authLoading={authLoading}
+        onEnterGame={handleEnterGame}
       />
 
       {authNotice && (
