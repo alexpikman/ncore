@@ -48,5 +48,5 @@ export function saveGameplaySave(userId: string, save: GameplaySave): void {
 }
 
 function getSaveKey(userId: string): string {
-  return \`ncore:gameplay:v\${SAVE_VERSION}:\${userId}\`;
+  return `ncore:gameplay:v${SAVE_VERSION}:${userId}`;
 }

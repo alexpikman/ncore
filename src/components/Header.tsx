@@ -1,12 +1,11 @@
 interface HeaderProps {
-  onOpenEditor: () => void;
   onSelectEconomy: () => void;
   isAuthenticated: boolean;
   authLoading: boolean;
   onEnterGame: () => void;
 }
 
-export function Header({ onOpenEditor, onSelectEconomy, isAuthenticated, authLoading, onEnterGame }: HeaderProps) {
+export function Header({ onSelectEconomy, isAuthenticated, authLoading, onEnterGame }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 h-16 bg-[#090E1A]/95 backdrop-blur-md border-b border-white/10">
       <div className="max-w-[1200px] mx-auto h-full px-5 sm:px-8 flex items-center justify-between gap-8">

@@ -45,7 +45,7 @@ const CATEGORY_ICONS = {
 };
 
 function createId(): string {
-  return globalThis.crypto?.randomUUID?.() ?? \`\${Date.now()}-\${Math.random().toString(36).slice(2, 9)}\`;
+  return globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
 function getComponent(componentId: string): HardwareComponent | undefined {
@@ -53,7 +53,7 @@ function getComponent(componentId: string): HardwareComponent | undefined {
 }
 
 function createServerName(count: number): string {
-  return \`NCORE-VPS-\${String(count + 1).padStart(3, '0')}\`;
+  return `NCORE-VPS-${String(count + 1).padStart(3, '0')}`;
 }
 
 export function Gameplay({ user, onExit }: GameplayProps) {
@@ -95,7 +95,7 @@ export function Gameplay({ user, onExit }: GameplayProps) {
 
   const handlePurchase = (component: HardwareComponent) => {
     if (save.balance < component.price) {
-      setNotice('Недостаточно COIN. Продайте ничего нельзя — сначала накопите баланс.');
+      setNotice('Недостаточно COIN для покупки. Выберите более дешёвую деталь.');
       return;
     }
 
@@ -111,7 +111,7 @@ export function Gameplay({ user, onExit }: GameplayProps) {
         },
       ],
     }));
-    setNotice(\`Куплено: \${component.name}. Деталь добавлена на склад.\`);
+    setNotice(`Куплено: ${component.name}. Деталь добавлена на склад.`);
   };
 
   const handleSelectPart = (category: ComponentCategory, instanceId: string) => {
@@ -144,7 +144,7 @@ export function Gameplay({ user, onExit }: GameplayProps) {
     }));
     setBuildSlots(EMPTY_BUILD);
     setActiveTab('servers');
-    setNotice(\`\${server.name} собран. Компоненты списаны со склада.\`);
+    setNotice(`${server.name} собран. Компоненты списаны со склада.`);
   };
 
   const handleClearBuild = () => {
@@ -216,7 +216,7 @@ export function Gameplay({ user, onExit }: GameplayProps) {
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={\`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition \${activeTab === tab ? 'bg-cyan-600 text-white dark:bg-[#22D3EE] dark:text-[#07111D]' : 'border border-slate-200 bg-white text-slate-600 hover:border-cyan-500 dark:border-white/10 dark:bg-[#101726] dark:text-slate-300'}\`}
+              className={`inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition ${activeTab === tab ? 'bg-cyan-600 text-white dark:bg-[#22D3EE] dark:text-[#07111D]' : 'border border-slate-200 bg-white text-slate-600 hover:border-cyan-500 dark:border-white/10 dark:bg-[#101726] dark:text-slate-300'}`}
             >
               <Icon size={16} />
               {label}
@@ -244,7 +244,7 @@ export function Gameplay({ user, onExit }: GameplayProps) {
                       key={category}
                       type="button"
                       onClick={() => setActiveCategory(category)}
-                      className={\`flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-left text-xs font-semibold transition \${activeCategory === category ? 'bg-cyan-50 text-cyan-800 ring-1 ring-cyan-300 dark:bg-cyan-400/10 dark:text-cyan-200 dark:ring-cyan-400/30' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/5'}\`}
+                      className={`flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-left text-xs font-semibold transition ${activeCategory === category ? 'bg-cyan-50 text-cyan-800 ring-1 ring-cyan-300 dark:bg-cyan-400/10 dark:text-cyan-200 dark:ring-cyan-400/30' : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/5'}`}
                     >
                       <span className="flex min-w-0 items-center gap-2"><Icon size={15} /><span className="truncate">{CATEGORY_LABELS[category]}</span></span>
                       <span className="rounded-md bg-slate-200 px-1.5 py-0.5 text-[10px] tabular-nums dark:bg-white/10">{count}</span>

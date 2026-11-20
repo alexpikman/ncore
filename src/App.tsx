@@ -94,7 +94,6 @@ function PortalContent() {
     setAuthNotice(null);
     try {
       await signInWithGoogle();
-      setActiveView('gameplay');
     } catch (err) {
       setAuthNotice(
         err instanceof Error ? err.message : 'Не удалось выполнить вход через Google.',
@@ -102,12 +101,27 @@ function PortalContent() {
     }
   };
 
-  const handleEnterGame = async () => {
-    if (user) {
-      setActiveView('gameplay');
-      return;
+  const performSignIn = async (): Promise<boolean> => {
+    setAuthNotice(null);
+    try {
+      await signInWithGoogle();
+      return true;
+    } catch (err) {
+      setAuthNotice(
+        err instanceof Error ? err.message : 'Не удалось выполнить вход через Google.',
+      );
+      return false;
     }
-    await handleSignIn();
+  };
+
+  const handleSignIn = async () => {
+    await performSignIn();
+  };
+
+  const handleEnterGame = async () => {
+    if (user || await performSignIn()) {
+      setActiveView('gameplay');
+    }
   };
 
   const handleSignOut = async () => {
@@ -155,7 +169,6 @@ function PortalContent() {
   return (
     <div id="top" className="min-h-screen bg-[#090E1A] text-[#E6EDF7] flex flex-col">
       <Header
-        onOpenEditor={() => openEditorForTab('entry')}
         onSelectEconomy={() => setActiveChapter('economy_market')}
         isAuthenticated={Boolean(user)}
         authLoading={authLoading}
