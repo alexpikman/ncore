@@ -33,6 +33,7 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { Header } from './components/Header';
 import { KnowledgeBaseSection } from './components/KnowledgeBaseSection';
 import { HeroTopologyDiagram } from './components/NetworkDiagrams';
+import { AnimatedNetworkSection } from './components/AnimatedNetworkSection';
 import { RoadmapAndReference } from './components/RoadmapAndReference';
 import { deleteConceptAddendum } from './services/portalService';
 
@@ -196,6 +197,8 @@ function PortalContent() {
             </div>
           </div>
         </section>
+
+        <AnimatedNetworkSection />
 
         {/* Concept Explorer with 5 Chapters + Inline Addenda */}
         <ConceptExplorer
